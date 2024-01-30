@@ -46,6 +46,12 @@ body {
   margin-top: 20px;
 }
 
+#wave {
+  height: 100px;
+  width: 100px;
+  margin-top: 10px;
+}
+
 /* Below content is Card CSS */
 .card {
   width: 800px;
