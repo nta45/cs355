@@ -1,0 +1,53 @@
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="Week 2/styles/admin.css">
+</head>
+<body>
+    <div class="container">
+        <div class="radio-wrapper">
+            <input class="input" name="btn" id="value-1" type="radio">
+            <div class="btn">
+                <span aria-hidden=""></span>Week 2
+                <span class="btn__glitch" aria-hidden="">Week 2</span>
+                <label class="number">r1</label>
+            </div>
+            <a href="./Week 2/index.html"></a> <!-- Add link reference here -->
+        </div>
+        <div class="radio-wrapper">
+            <input class="input" name="btn" id="value-2" checked="true" type="radio">
+            <div class="btn">
+                Week 3<span aria-hidden=""></span>
+                <span class="btn__glitch" aria-hidden="Dog">Dog</span>
+                <label class="number">r2</label>
+            </div>
+            <a href="./Week 3/dog.html"></a> <!-- Add link reference here -->
+        <!-- </div>
+        <div class="radio-wrapper">
+            <input class="input" name="btn" id="value-3" type="radio">
+            <div class="btn">
+                Buttons<span aria-hidden=""></span>
+                <span class="btn__glitch" aria-hidden="">Buttons</span>
+                <label class="number">r3</label>
+            </div> 
+            <a href="page3.html"></a> <!-- Add link reference here -->
+        </div> -->
+    </div>
+
+    <script>
+        // Add event listeners to the buttons
+        const buttons = document.querySelectorAll('.radio-wrapper');
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Handle button click event here
+                const link = button.querySelector('a');
+                if (link) {
+                    window.open(link.href, '_blank');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
