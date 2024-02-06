@@ -8,6 +8,13 @@
     max-width: 600px;
     max-height: 600px;
 }
+.content{
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: 10%;
+  align-items: center;
+}
 
 .container-2{
   display: flex;
