@@ -37,9 +37,16 @@ function main() {
     }
 }
 
-setInterval(main, 5000);
+let intervalId;
 
 x('.reset').addEventListener('click', () => {
     x('.dog-images').innerHTML = "";
     x('#breed').value = "";
+    clearInterval(intervalId);
+});
+
+x('#search').addEventListener("click", () => {
+    clearInterval(intervalId);
+    main();
+    intervalId = setInterval(main, 5000);
 });
