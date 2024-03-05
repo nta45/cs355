@@ -1,14 +1,18 @@
 {
-  "name": "week-6",
+  "name": "practice-express",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon",
-    "instrun": "npm install -g nodemon",
-    "servrun": "nodemon index.js"
+    "express": "npm install express",
+    "nodemon": "npm install -g nodemon",
+    "start": "nodemon index.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.3",
+    "nedb-promises": "^6.2.3"
+  }
 }
