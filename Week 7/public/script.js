@@ -17,7 +17,7 @@ $('#loginBtn').addEventListener('click',()=>{
     // check to make sure username/password aren't blank
     if(!$('#loginUsername').value || !$('#loginPassword').value)
         return;
-    // TODO: 
+     
     //   GET /users/{username}, where {username} is $('#loginUsername').value
     //     decode response from json to object called doc
     //     if doc.error, call showError(doc.error)
@@ -54,7 +54,7 @@ $('#registerBtn').addEventListener('click',()=>{
         name: $('#registerName').value,
         email: $('#registerEmail').value
     };
-    // TODO: 
+     
     //   POST /users
     //     convert data (defined above) to json, and send via POST to /users
     //     decode response from json to object called doc
@@ -87,7 +87,7 @@ $('#updateBtn').addEventListener('click',()=>{
         name: $('#updateName').value,
         email: $('#updateEmail').value
     };
-    // TODO: 
+     
     //   PATCH /users/{username}, where {username} is $('#username').innerText
     //     convert data (defined above) to json, and send via PATCH to /users/{username}
     //     decode response from json to object called doc
@@ -114,7 +114,7 @@ $('#deleteBtn').addEventListener('click',()=>{
     // confirm that the user wants to delete
     if(!confirm("Are you sure you want to delete your profile?"))
         return;
-    // TODO: 
+     
     //   DELETE /users/{username}, where {username} is $('#username').innerText
     //     decode response from json to object called doc
     //     if doc.error, showError(doc.error)
@@ -133,7 +133,7 @@ $('#deleteBtn').addEventListener('click',()=>{
 });
 
 function showListOfUsers(){
-    // TODO:
+    
     //   GET /users
     //     decode response from json to an array called docs
     //     for every doc in docs, call showUserInList(doc)
