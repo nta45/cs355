@@ -9,12 +9,12 @@ app.use(express.static('public'));        // enable static routing to "./public"
 app.use(express.json());                  // decode all requests from JSON and encode all responses into JSON
 
 // route to authenticate user login
-app.post('/login', async (req, res)=> {
-    const { username, password} = req.body;
-    
+app.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+
     // check if user exists and password matches
     const user = await db.findOne({ username });
-    if(!user || !bcrypt.compareSync(password, user.password)) {
+    if (!user || !bcrypt.compareSync(password, user.password)) {
         res.send({ error: 'Invalid username or password.' });
         return;
     }
@@ -22,16 +22,16 @@ app.post('/login', async (req, res)=> {
     // creating an authentication token and storing it in the session
     const authToken = crypto.randomBytes(64).toString('hex');
     await db.update({ username }, { $set: { authToken } });
-    res.send({user, auth: authToken});
+    res.send({ user, auth: authToken });
 });
 
 // route to register new user
-app.post('/register', async (req, res)=> {
+app.post('/register', async (req, res) => {
     const { username, password, name, email } = req.body;
-    
+
     // check if user already exists
     const user = await db.findOne({ username });
-    if(user) {
+    if (user) {
         return res.send({ error: 'Username already exists.' });
     }
 
@@ -41,8 +41,8 @@ app.post('/register', async (req, res)=> {
 
     // creating an authentication token and storing it in the session
     const authToken = crypto.randomBytes(64).toString('hex');
-    await db.update({username}, { $set: { authToken } });
-    res.send({user, auth: authToken });
+    await db.update({ username }, { $set: { authToken } });
+    res.send({ user, auth: authToken });
 });
 
 // create route to get all user records (GET /users)
@@ -71,15 +71,15 @@ app.get('/users/:username', async (req, res) => {
         return res.send({ error: 'Unauthorized' });
     }
     // once authenticated, return user record
-    db.findOne({ "username":req.params.username }).then((docs) => { 
-            if (docs){
-                res.send(docs); 
-            } else { 
-                res.send({ error: 'Username not found.' }) 
-            } 
-        }).catch((error) => {
-            res.send({ error });
-        });
+    db.findOne({ "username": req.params.username }).then((docs) => {
+        if (docs) {
+            res.send(docs);
+        } else {
+            res.send({ error: 'Username not found.' })
+        }
+    }).catch((error) => {
+        res.send({ error });
+    });
 });
 
 // create route to update user doc (PATCH /users/:username)
@@ -91,7 +91,7 @@ app.patch('/users/:username', async (req, res) => {
         return res.send({ error: 'Unauthorized' });
     }
     // once authenticated, update user record
-    db.updateOne({ "username":req.params.username }, { $set: req.body }).then((docs) => {
+    db.updateOne({ "username": req.params.username }, { $set: req.body }).then((docs) => {
         if (JSON.stringify(docs).length >= 1) {
             res.send({ ok: true });
         } else {
