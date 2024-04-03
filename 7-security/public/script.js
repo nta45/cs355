@@ -2,15 +2,12 @@
 
 const $ = document.querySelector.bind(document);
 
-
 // login link action
 $('#loginLink').addEventListener('click',openLoginScreen);
-
 // register link action
 $('#registerLink').addEventListener('click',openRegisterScreen);
-
 // logout link action
-$('#logoutLink').addEventListener('click',openLoginScreen);
+$('#logoutLink').addEventListener('click',openLogoutScreen);
 
 // Sign In button action
 $('#loginBtn').addEventListener('click',()=>{
@@ -18,23 +15,24 @@ $('#loginBtn').addEventListener('click',()=>{
     if(!$('#loginUsername').value || !$('#loginPassword').value)
         return;
      
-    //   GET /users/{username}, where {username} is $('#loginUsername').value
-    //     decode response from json to object called doc
-    //     if doc.error, call showError(doc.error)
-    //     otherwise, if doc.password is NOT the same as $('#loginPassword').value,
-    //       call showError('Username and password do not match.')
-    //     otherwise, call openHomeScreen(doc)
-    //   use .catch(err=>showError('ERROR: '+err)}) to show any other errors
-    fetch('/users/'+$('#loginUsername').value).then(r => r.json()).then((doc)=>{
-        if(doc.error){
+    // POST provided username/password to authenticate user
+    fetch('/login', {
+        method: 'POST',
+        headers: { 
+            'Content-Type': 'application/json',
+            },
+        body: JSON.stringify({ 
+            username: $('#loginUsername').value, 
+            password: $('#loginPassword').value
+        })
+    }).then(r => r.json()).then((doc)=>{
+        if(!doc.auth){
             showError(doc.error);
-        } else if(doc.password !== $('#loginPassword').value){
-            console.log(doc.password);
-            showError('Username and password do not match.');
         } else {
+            localStorage.setItem('authToken', doc.auth);
             openHomeScreen(doc);
         }
-    }).catch(err=>showError('ERROR: '+err));
+    }).catch(err=>showError('ERROR at log: '+err));
 });
 
 // Register button action
@@ -47,7 +45,7 @@ $('#registerBtn').addEventListener('click',()=>{
         showError('All fields are required.');
         return;
     }
-    // grab all user info from input fields, and POST it to /users
+    // grab all user info from input fields, and POST it to /register
     var data = {
         username: $('#registerUsername').value,
         password: $('#registerPassword').value,
@@ -55,24 +53,19 @@ $('#registerBtn').addEventListener('click',()=>{
         email: $('#registerEmail').value
     };
      
-    //   POST /users
-    //     convert data (defined above) to json, and send via POST to /users
-    //     decode response from json to object called doc
-    //     if doc.error, showError(doc.error)
-    //     otherwise, openHomeScreen(doc)
-    //   use .catch(err=>showError('ERROR: '+err)}) to show any other errors
-    
-    fetch('/users', {
+    // POST /users and get authentication token
+    fetch('/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify( data )
     }).then(r => r.json()).then((doc)=>{
-        if(doc.error){
+        if(!doc.auth){
             showError(doc.error);
         } else {
+            localStorage.setItem('authToken', doc.auth);
             openHomeScreen(doc);
         }
-    }).catch(err=>showError('ERROR: '+err));
+    }).catch(err=>showError('ERROR at reg: '+err));
 });
 
 // Update button action
@@ -87,18 +80,18 @@ $('#updateBtn').addEventListener('click',()=>{
         name: $('#updateName').value,
         email: $('#updateEmail').value
     };
+
+    // getting authToken from localStorage to send with PATCH request
+    const authToken = localStorage.getItem('authToken');
+    if (!authToken) {
+        showError('Authentication token not found.');
+        return;
+    }
      
-    //   PATCH /users/{username}, where {username} is $('#username').innerText
-    //     convert data (defined above) to json, and send via PATCH to /users/{username}
-    //     decode response from json to object called doc
-    //     if doc.error, showError(doc.error)
-    //     otherwise, if doc.ok,
-    //       alert("Your name and email have been updated.");
-    //   use .catch(err=>showError('ERROR: '+err)}) to show any other errors
-    
+    //  PATCH /users/{username}
     fetch('/users/'+$('#username').innerText, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Token ' + authToken},
         body: JSON.stringify(data)
     }).then(r => r.json()).then((doc)=>{
         if(doc.error){
@@ -106,7 +99,7 @@ $('#updateBtn').addEventListener('click',()=>{
         } else if(doc.ok){
             alert("Your name and email have been updated.");
         }
-    }).catch(err=>showError('ERROR: '+err));
+    }).catch(err=>showError('ERROR at patch: '+err));
 });
 
 // Delete button action
@@ -114,33 +107,49 @@ $('#deleteBtn').addEventListener('click',()=>{
     // confirm that the user wants to delete
     if(!confirm("Are you sure you want to delete your profile?"))
         return;
+
+    // getting authToken from localStorage to send with PATCH request
+    const authToken = localStorage.getItem('authToken');
+    if (!authToken) {
+        showError('Authentication token not found.');
+        return;
+    }
      
-    //   DELETE /users/{username}, where {username} is $('#username').innerText
-    //     decode response from json to object called doc
-    //     if doc.error, showError(doc.error)
-    //     otherwise, openLoginScreen()
-    //   use .catch(err=>showError('ERROR: '+err)}) to show any other errors
+    //   DELETE /users/{username}
     fetch('/users/'+$('#username').innerText,{
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+            'Authorization': 'Token ' + authToken
+        }
     }).then((doc)=>{
         if(doc.error){
             showError(doc.error);
         } else {
-            console.log("Opened login screen");
             openLoginScreen();  
         }
-    }).catch(err=>{console.log("errored");showError('ERROR: '+err);});
+    }).catch(err=>{showError('ERROR at del: '+err);});
 });
 
 function showListOfUsers(){
+
+    //getting authToken from localStorage to send with PATCH request
+    const authToken = localStorage.getItem('authToken');
+    if (!authToken) {
+        showError('Authentication token not found.');
+        return;
+    }
     
     //   GET /users
-    //     decode response from json to an array called docs
-    //     for every doc in docs, call showUserInList(doc)
-    //       you can do this by using a for-loop or, better yet, a forEach function:
-    //         docs.forEach(showUserInList)
-    //   use .catch(err=>showError('Could not get user list: '+err)}) to show any potential errors
-    fetch('/users').then(r => r.json()).then((docs)=>{
+    fetch('/users',{
+        method: 'GET',
+        headers: {
+            'Authorization': 'Token ' + authToken
+        }
+    }).then(r => r.json()).then((docs)=>{
+        if (docs.error) {
+            showError(docs.error);
+            return;
+        }
         docs.forEach(showUserInList);
     }).catch(err=>showError('Could not get user list: '+err));
 }
@@ -173,12 +182,12 @@ function openHomeScreen(doc){
     showError('');
     // reveal home screen
     $('#homeScreen').classList.remove('hidden');
-    // display name, username
-    $('#name').innerText = doc.name;
-    $('#username').innerText = doc.username;
+    // to display name, username
+    $('#name').innerText = doc.user.name;
+    $('#username').innerText = doc.user.username;
     // display updatable user info in input fields
-    $('#updateName').value = doc.name;
-    $('#updateEmail').value = doc.email;
+    $('#updateName').value = doc.user.name;
+    $('#updateEmail').value = doc.user.email;
     // clear prior userlist
     $('#userlist').innerHTML = '';
     // show new list of users
@@ -193,6 +202,20 @@ function openLoginScreen(){
     showError('');
     // reveal login screen
     $('#loginScreen').classList.remove('hidden');
+}
+
+function openLogoutScreen(){
+    // hide other screens, clear inputs, clear error
+    $('#registerScreen').classList.add('hidden');
+    $('#homeScreen').classList.add('hidden');
+    resetInputs();
+    showError('');
+    // delete local storage
+    localStorage.removeItem('authToken');
+    // reveal login screen
+    $('#loginScreen').classList.remove('hidden');
+    // add a text underneath that says suuccessfully logged out
+    showError('Successfully logged out.');
 }
 
 function openRegisterScreen(){
