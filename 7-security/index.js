@@ -22,7 +22,7 @@ app.post('/login', async (req, res) => {
     // creating an authentication token and storing it in the session
     const authToken = crypto.randomBytes(64).toString('hex');
     await db.update({ username }, { $set: { authToken } });
-    res.send({ user, auth: authToken });
+    res.send({ user: { username: user.username, name: user.name, email: user.email }, auth: authToken });
 });
 
 // route to register new user
@@ -42,7 +42,7 @@ app.post('/register', async (req, res) => {
     // creating an authentication token and storing it in the session
     const authToken = crypto.randomBytes(64).toString('hex');
     await db.update({ username }, { $set: { authToken } });
-    res.send({ user, auth: authToken });
+    res.send({ user: { username: user.username, name: user.name, email: user.email }, auth: authToken });
 });
 
 // create route to get all user records (GET /users)
