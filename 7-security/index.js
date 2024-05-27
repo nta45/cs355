@@ -91,7 +91,7 @@ app.patch('/users/:username', async (req, res) => {
         return res.send({ error: 'Unauthorized' });
     }
     // once authenticated, update user record
-    db.updateOne({ "username": req.params.username }, { $set: req.body }).then((docs) => {
+    db.updateOne({username: req.params.username }, { $set: req.body }).then((docs) => {
         if (JSON.stringify(docs).length >= 1) {
             res.send({ ok: true });
         } else {
