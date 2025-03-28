@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 {"username":"2","password":"$2b$10$soh7LkSwfePfZmu8zOpTmeYYyuTvkU5Cjp89eeDbDsBjf0bOLuiUq","name":"2","email":"1@1.1","_id":"OoguLomul6aLqiXV","authToken":"bc027397aecceed70ad3525fdd61bf96ec919cf11a489cdffbe05a799149ba0939b481dd48056ab3fe9c148c87deda82cbeaab0a9dd5b7ec16e29dcec53af779"}
 {"username":"1","password":"$2b$10$Jx9x5yIDj/ru67LSHcj0R.dL2JExZzk3jaE6.uYZlK9mZ0OZt8dVO","name":"1","email":"1","_id":"ptjlcawC50WMy3DS","authToken":"c777241e0c708819a7d4fd200ec56b64f4c837dcf07cd12873665ab130223af9ca8d0cfe7f106f519d303a15e14873b89fb3ddecfcb860d3aaea5c4d5ae9ec17"}
 {"username":"123","password":"$2b$10$xSZjWwdt0MjWN01RcVnp/.SDgBMpfl7nsSCo7dPVYChlsXklzwNKy","name":"123","email":"123","_id":"yjydjsjDfjrfJ5Fh","authToken":"9495fdb4a8e358a524e84b1c5b9d80a1d3dec0cbfb4968dc3260b75728ffa83124643cd1c9af45a5019313c571776c3368d96c74a443be02ffe7bff30a4949ed"}
 {"username":"1","password":"$2b$10$Jx9x5yIDj/ru67LSHcj0R.dL2JExZzk3jaE6.uYZlK9mZ0OZt8dVO","name":"1","email":"1","_id":"ptjlcawC50WMy3DS","authToken":"e88a43346b6c25d8b9c35f93cb656374c9ebd96ff29970b25006988c9e3061f0dcbce626eb910fc56ccec5755dc3c4794450ec54bdf5e7af26fa13bcc61e4a72"}
 {"username":"1","password":"$2b$10$Jx9x5yIDj/ru67LSHcj0R.dL2JExZzk3jaE6.uYZlK9mZ0OZt8dVO","name":"2","email":"2","_id":"ptjlcawC50WMy3DS","authToken":"e88a43346b6c25d8b9c35f93cb656374c9ebd96ff29970b25006988c9e3061f0dcbce626eb910fc56ccec5755dc3c4794450ec54bdf5e7af26fa13bcc61e4a72"}
 {"username":"1","password":"$2b$10$Jx9x5yIDj/ru67LSHcj0R.dL2JExZzk3jaE6.uYZlK9mZ0OZt8dVO","name":"2","email":"2","_id":"ptjlcawC50WMy3DS","authToken":"34e4d26f5607726d490abed6269ac9496278a259246cdc941cc144baca7c7f98e0c1adc3b2ad2c89e24d458dd864df34a535e24246f4ddcad143d058b27e7834"}
+=======
+{"username":"2","password":"2","name":"2","email":"2","_id":"0fgiZhz3y9DgfLMK"}
+{"$$deleted":true,"_id":"0fgiZhz3y9DgfLMK"}
+>>>>>>> parent of 310c4f5 (finished assignment 7-security)
